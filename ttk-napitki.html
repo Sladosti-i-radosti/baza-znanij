@@ -1,3 +1,64 @@
+      <!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>База знаний кофейни</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background: #faf7f2;
+            padding: 20px 16px 40px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #3e2723;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        .sub {
+            color: #6d4c41;
+            font-size: 15px;
+            border-left: 4px solid #a1887f;
+            padding-left: 12px;
+            margin-bottom: 20px;
+        }
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 28px;
+            align-items: center;
+        }
+        .search-wrap {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+        }
+        .search-wrap input {
+            width: 100%;
+            padding: 12px 18px 12px 48px;
+            border-radius: 60px;
+            border: 1px solid #d7ccc8;
+            background: white;
+            font-size: 16px;
+            outline: none;
+            transition: 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
         .search-wrap input:focus {
             border-color: #8d6e63;
             box-shadow: 0 4px 12px rgba(109,76,65,0.15);
@@ -151,12 +212,58 @@
             border-top: 1px solid #e0d6cf;
             padding-top: 24px;
         }
+        .toc {
+            background: #f5f0ec;
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-bottom: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 16px;
+        }
+        .toc a {
+            color: #4e342e;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 4px 0;
+            border-bottom: 2px solid transparent;
+            transition: 0.15s;
+        }
+        .toc a:hover {
+            border-bottom-color: #8d6e63;
+        }
+        @media (max-width: 600px) {
+            .toc {
+                gap: 6px 12px;
+            }
+            .toc a {
+                font-size: 13px;
+            }
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <h1>☕ База знаний кофейни</h1>
     <div class="sub">Технологические карты напитков</div>
+
+    <!-- Оглавление -->
+    <div class="toc">
+        <a href="#cat-espresso">☕ Эспрессо</a>
+        <a href="#cat-black">🖤 Чёрный</a>
+        <a href="#cat-milk">🥛 С молоком</a>
+        <a href="#cat-cream">🍦 Со сливками</a>
+        <a href="#cat-other">✨ Иное</a>
+        <a href="#cat-matcha">🍵 Матча</a>
+        <a href="#cat-cacao">🍫 Какао</a>
+        <a href="#cat-shake">🥤 Милк шейки</a>
+        <a href="#cat-ice">🧊 Айс-кофе</a>
+        <a href="#cat-ice-other">🧊 Айс-другое</a>
+        <a href="#cat-tea">🍵 Чаи</a>
+        <a href="#cat-lemonade">🍋 Лимонады</a>
+        <a href="#cat-smoothie">🥑 Смузи</a>
+    </div>
 
     <div class="controls">
         <div class="search-wrap">
@@ -165,26 +272,32 @@
         <div class="filter-buttons" id="filterButtons">
             <button class="filter-btn active" data-category="all">Все</button>
             <button class="filter-btn" data-category="эспрессо">Эспрессо</button>
-            <button class="filter-btn" data-category="черный кофе">Черный кофе</button>
+            <button class="filter-btn" data-category="черный кофе">Черный</button>
             <button class="filter-btn" data-category="с молоком">С молоком</button>
             <button class="filter-btn" data-category="со сливками">Со сливками</button>
             <button class="filter-btn" data-category="иное">Иное</button>
             <button class="filter-btn" data-category="матча">Матча</button>
             <button class="filter-btn" data-category="какао">Какао</button>
-            <button class="filter-btn" data-category="милк шейки">Милк шейки</button>
+            <button class="filter-btn" data-category="милк шейки">Шейки</button>
+            <button class="filter-btn" data-category="айс-кофе">Айс-кофе</button>
+            <button class="filter-btn" data-category="айс-другое">Айс-другое</button>
+            <button class="filter-btn" data-category="чай">Чаи</button>
+            <button class="filter-btn" data-category="лимонад">Лимонады</button>
+            <button class="filter-btn" data-category="смузи">Смузи</button>
         </div>
     </div>
 
     <div class="grid" id="cardGrid"></div>
 
-    <div class="footer">Обновлено: 29.07.2026 · Версия 3.0</div>
+    <div class="footer">Обновлено: 29.07.2026 · Версия 5.0</div>
 </div>
 
 <script>
     // ============================================================
-    // ДАННЫЕ НАПИТКОВ
+    // ДАННЫЕ НАПИТКОВ (полный список)
     // ============================================================
     const drinks = [
+        // ===== ЭСПРЕССО =====
         {
             name: "Эспрессо",
             volume: "40 мл",
@@ -195,6 +308,8 @@
             description: "Крепкий кофе с нотками цитруса, сухофруктов и орехов и послевкусием шоколада.",
             serving: "Эспрессо выдается в чашках, на блюдце с чайной ложкой со стаканом воды."
         },
+
+        // ===== ЧЁРНЫЙ КОФЕ =====
         {
             name: "Американо стандарт",
             volume: "200 мл",
@@ -225,11 +340,13 @@
             description: "Чистый вкус кофе, обладает яркими и свежими нотами, с ароматом фруктов и цветов.",
             serving: "Фильтр выдается в чашке на 300 мл на блюдце с ложкой."
         },
+
+        // ===== С МОЛОКОМ =====
         {
             name: "Капучино стандарт",
             volume: "200 мл",
             category: "с молоком",
-            ingredients: ["Одинарный эспрессо (18 мл)", "Молоко 3,2% (160 мл)", "Печенька к кофе (1 шт.)"],
+            ingredients: ["Одинарный эспрессо (18 мл)", "Молоко 3,2% (160 мл)", "Печенька (1 шт.)"],
             extra: "Альтернативное молоко, сироп",
             technology: "Готовим двойной эспрессо. Разделяем его с помощью малых питчеров. 1 эспрессо используем для приготовления капучино, второй можно использовать в других напитках в течение 1 мин. Отдельно в питчере взбиваем молоко. Вливаем молоко в эспрессо. Температура молока 60-65°С.",
             description: "Идеальное сочетание насыщенного эспрессо и нежной молочной пены.",
@@ -239,7 +356,7 @@
             name: "Капучино большой",
             volume: "300 мл",
             category: "с молоком",
-            ingredients: ["Двойной эспрессо (36 мл)", "Молоко 3,2% (200 мл)", "Печенька к кофе (1 шт.)"],
+            ingredients: ["Двойной эспрессо (36 мл)", "Молоко 3,2% (200 мл)", "Печенька (1 шт.)"],
             extra: "Альтернативное молоко, сироп",
             technology: "Готовим двойной эспрессо. Отдельно в питчере взбиваем молоко. Вливаем молоко в эспрессо.",
             description: "Двойная порция сбалансированного вкуса насыщенного эспрессо и нежной молочной пены.",
@@ -251,7 +368,7 @@
             category: "с молоком",
             ingredients: ["Одинарный эспрессо (18 мл)", "Молоко 3,2% (160 мл)", "Сироп в ассортименте (10 мл)"],
             extra: "Альтернативное молоко, сироп",
-            technology: "Готовим двойной эспрессо. Разделяем его. 1 эспрессо используем, второй можно использовать позже. Отдельно взбиваем молоко. В рокс вливаем молоко, сверху эспрессо. Температура молока 60-65°С.",
+            technology: "Готовим двойной эспрессо. Разделяем его. 1 эспрессо используем. Отдельно взбиваем молоко. В рокс вливаем молоко, сверху эспрессо. Температура молока 60-65°С.",
             description: "Молочный кофейный напиток с легкой, бархатистой молочной пеной.",
             serving: "Латте выдается в роксе 200 мл."
         },
@@ -272,9 +389,11 @@
             ingredients: ["Двойной эспрессо (36 мл)", "Молоко 3,2% (160 мл)"],
             extra: "Альтернативное молоко, сироп",
             technology: "Готовим двойной эспрессо. Отдельно взбиваем молоко. В эспрессо вливаем молоко.",
-            description: "Напиток в два раза крепче, чем капучино. Баланс крепкого эспрессо и идеально взбитого молока, создающего гладкую, кремовую текстуру.",
+            description: "Напиток в два раза крепче, чем капучино. Баланс крепкого эспрессо и идеально взбитого молока.",
             serving: "Флэт выдается в роксе 200 мл."
         },
+
+        // ===== СО СЛИВКАМИ =====
         {
             name: "Раф стандарт",
             volume: "200 мл",
@@ -305,16 +424,8 @@
             description: "Кофейный напиток с нежным сливочным вкусом за счет добавления сливок.",
             serving: "Крем-кофе выдается в чашке на 200 мл с ложкой на блюдце."
         },
-        {
-            name: "Глясе",
-            volume: "300 мл",
-            category: "со сливками",
-            ingredients: ["Одинарный эспрессо (18 мл)", "Молоко 3,2% (80 мл)", "Сливки 22% (80 мл)", "ЗМЖ (150 мл)"],
-            extra: "Альтернативное молоко, сироп",
-            technology: "Готовим двойной эспрессо. Разделяем его. 1 эспрессо используем. В блендер добавляем молоко, сливки, эспрессо и ЗМЖ. Взбиваем.",
-            description: "Оригинальный кофейный напиток с шариком ванильного пломбира и сливок.",
-            serving: "Глясе выдается в хайболе 350 мл."
-        },
+
+        // ===== ИНОЕ =====
         {
             name: "Кофе по-венски",
             volume: "300 мл",
@@ -345,6 +456,8 @@
             description: "Согревающий кофейный напиток с цитрусовым фрешем и медом.",
             serving: "Выдается в чашке на 300 мл с ложкой на блюдце."
         },
+
+        // ===== МАТЧА =====
         {
             name: "Матча зеленая",
             volume: "200 мл",
@@ -365,6 +478,8 @@
             description: "Мягкий и цветочный вкус.",
             serving: "Матча подается в роксе 200 мл."
         },
+
+        // ===== КАКАО =====
         {
             name: "Какао",
             volume: "300 мл",
@@ -375,6 +490,8 @@
             description: "Шоколадно-молочный напиток со вкусом детства.",
             serving: "Какао подается в чашке на 300 мл на блюдце, с ложкой."
         },
+
+        // ===== МИЛК ШЕЙКИ =====
         {
             name: "Милк шейк Орео",
             volume: "300 мл",
@@ -414,94 +531,61 @@
             technology: "ЗМЖ, молоко, сливки, банан и сиропы взбить в блендере до однородной массы. Перелить в хайбол 300 мл, украсить взбитыми сливками и криспи шариками.",
             description: "Классический молочный коктейль со вкусом клубника-банан.",
             serving: "В хайболе 350 мл."
-        }
-    ];
+        },
 
-    // ============================================================
-    // РЕНДЕР И ФИЛЬТРАЦИЯ
-    // ============================================================
-    const grid = document.getElementById('cardGrid');
-    const searchInput = document.getElementById('searchInput');
-
-    let currentCategory = 'all';
-
-    function renderCards() {
-        const searchTerm = searchInput.value.trim().toLowerCase();
-        let html = '';
-        let visibleCount = 0;
-
-        drinks.forEach(d => {
-            const categoryMatch = currentCategory === 'all' || d.category === currentCategory;
-            const searchMatch = searchTerm === '' ||
-                d.name.toLowerCase().includes(searchTerm) ||
-                d.ingredients.some(i => i.toLowerCase().includes(searchTerm)) ||
-                d.technology.toLowerCase().includes(searchTerm) ||
-                d.description.toLowerCase().includes(searchTerm) ||
-                (d.extra && d.extra.toLowerCase().includes(searchTerm));
-            const show = categoryMatch && searchMatch;
-            if (show) visibleCount++;
-
-            // Формируем список ингредиентов
-            const ingredientsHtml = d.ingredients.map(i => `<span class="ingredient-item">${i}</span>`).join('');
-
-            // Дополнительный ингредиент
-            let extraHtml = '';
-            if (d.extra && d.extra.trim() !== '') {
-                extraHtml = `<div class="section"><div class="section-title">➕ Дополнительные ингредиенты</div><div class="section-content"><span class="extra">${d.extra}</span></div></div>`;
-            }
-
-            const cardHtml = `
-                <div class="card ${show ? '' : 'hidden'}">
-                    <div class="card-header">
-                        <h2>${d.name}</h2>
-                        <span class="volume">${d.volume}</span>
-                    </div>
-                    <div class="category-tag">${d.category}</div>
-                    <div class="section">
-                        <div class="section-title">🛒 Состав</div>
-                        <div class="section-content ingredient-list">${ingredientsHtml}</div>
-                    </div>
-                    ${extraHtml}
-                    <div class="section">
-                        <div class="section-title">👨‍🍳 Технология</div>
-                        <div class="section-content">${d.technology}</div>
-                    </div>
-                    <div class="section">
-                        <div class="section-title">📝 Вкусное описание</div>
-                        <div class="section-content">${d.description}</div>
-                    </div>
-                    <div class="section">
-                        <div class="section-title">🍽 Подача</div>
-                        <div class="section-content">${d.serving}</div>
-                    </div>
-                </div>
-            `;
-            html += cardHtml;
-        });
-
-        if (visibleCount === 0) {
-            html = `<div class="empty">😕 Ничего не найдено. Попробуйте изменить запрос.</div>`;
-        }
-
-        grid.innerHTML = html;
-    }
-
-    function applyFilters() {
-        renderCards();
-    }
-
-    // Фильтр по категориям (кнопки)
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            currentCategory = this.dataset.category;
-            renderCards();
-        });
-    });
-
-    // Инициализация
-    renderCards();
-</script>
-</body>
-</html>
+        // ===== АЙС-КОФЕ (холодные кофейные напитки) =====
+        {
+            name: "Айс-американо",
+            volume: "200 мл",
+            category: "айс-кофе",
+            ingredients: ["Двойной эспрессо (36 мл)", "Вода фильтрованная (100 мл)", "Лёд (полный стакан)"],
+            extra: "",
+            technology: "В стакан Рокс 250 мл засыпаем лёд на полный объём стакана. Готовим двойной эспрессо. В стакан наливаем воду из фильтра, сверху вливаем двойной эспрессо.",
+            description: "Крепкий охлаждённый эспрессо, дополненный холодной водой и кубиками льда. У него чистый, яркий вкус с лёгкой кислинкой, который прекрасно тонизирует и утоляет жажду.",
+            serving: "Рокс 250 мл."
+        },
+        {
+            name: "Айс-латте 200 мл",
+            volume: "200 мл",
+            category: "айс-кофе",
+            ingredients: ["Одинарный эспрессо (18 мл)", "Молоко 3,2% (110 мл)", "Сироп в ассортименте (10 мл)", "Лёд (полный стакан)"],
+            extra: "",
+            technology: "В стакан Рокс 250 мл засыпаем лёд на полный объём стакана. Готовим двойной эспрессо, разделяя его с помощью малых питчеров. В стакан наливаем молоко (не взбиваем!), сироп, сверху вливаем эспрессо.",
+            description: "Нежный кофейный напиток на основе эспрессо, холодного молока, сладкого сиропа и льда.",
+            serving: "Рокс 250 мл."
+        },
+        {
+            name: "Айс-латте 300 мл",
+            volume: "300 мл",
+            category: "айс-кофе",
+            ingredients: ["Двойной эспрессо (36 мл)", "Молоко 3,2% (180 мл)", "Сироп в ассортименте (15 мл)", "Лёд (полный стакан)"],
+            extra: "",
+            technology: "В стакан хайбол 350 мл засыпаем лёд на полный объём стакана. Готовим двойной эспрессо. В стакан наливаем молоко (не взбиваем!), сироп, сверху вливаем двойной эспрессо.",
+            description: "Нежный кофейный напиток на основе эспрессо, холодного молока, сладкого сиропа и льда.",
+            serving: "Хайбол 350 мл."
+        },
+        {
+            name: "Айс-раф 200 мл",
+            volume: "200 мл",
+            category: "айс-кофе",
+            ingredients: ["Одинарный эспрессо (18 мл)", "Молоко 3,2% (50 мл)", "Сливки 22% (50 мл)", "Сироп (10 мл)", "Лёд (полный стакан)"],
+            extra: "",
+            technology: "В стакан Рокс 250 мл засыпаем лёд на полный объём стакана. Готовим двойной эспрессо, разделяя его с помощью малых питчеров. В стакан наливаем молоко и сливки (не взбиваем!), сироп, вливаем эспрессо. Тщательно перемешиваем барной ложкой.",
+            description: "Сливочный кофейный напиток с эспрессо, холодным молоком и сливками, сладким сиропом и льдом.",
+            serving: "Рокс 250 мл."
+        },
+        {
+            name: "Айс-раф 300 мл",
+            volume: "300 мл",
+            category: "айс-кофе",
+            ingredients: ["Двойной эспрессо (36 мл)", "Молоко 3,2% (80 мл)", "Сливки 22% (80 мл)", "Сироп (15 мл)", "Лёд (полный стакан)"],
+            extra: "",
+            technology: "В стакан хайбол 350 мл засыпаем лёд на полный объём стакана. Готовим двойной эспрессо. В стакан наливаем молоко и сливки (не взбиваем!), сироп, вливаем двойной эспрессо. Тщательно перемешиваем барной ложкой.",
+            description: "Сливочный кофейный напиток с эспрессо, холодным молоком и сливками, сладким сиропом и льдом.",
+            serving: "Хайбол 350 мл."
+        },
+        {
+            name: "Кофе Бамбл 200 мл",
+            volume: "200 мл",
+            category: "айс-кофе",
+            ingredients: ["Одинарный эспрессо (18 мл)", "Фреш апельсиновый (90 мл)",
