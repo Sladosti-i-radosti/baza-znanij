@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>База знаний кофейни</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background: #faf7f2;
+            padding: 20px 16px 40px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .header {
+            margin-bottom: 24px;
+        }
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #3e2723;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .header .sub {
+            color: #6d4c41;
+            font-size: 15px;
+            border-left: 4px solid #a1887f;
+            padding-left: 12px;
+            margin-top: 4px;
+        }
+        .search-wrap {
+            margin-bottom: 28px;
+            position: relative;
+        }
+        .search-wrap input {
+            width: 100%;
+            padding: 14px 18px 14px 48px;
+            border-radius: 60px;
+            border: 1px solid #d7ccc8;
+            background: white;
+            font-size: 16px;
+            outline: none;
+            transition: 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .search-wrap input:focus {
+            border-color: #8d6e63;
+            box-shadow: 0 4px 12px rgba(109,76,65,0.15);
+        }
+        .search-wrap::before {
+            content: "🔍";
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            opacity: 0.6;
+        }
+
+        .category {
+            margin-bottom: 32px;
+        }
+        .category-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #4e342e;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid #e0d6cf;
+            padding-bottom: 6px;
+            margin-bottom: 14px;
+        }
+        .category-title .icon {
+            font-size: 26px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+        @media (min-width: 500px) {
+            .card-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .link-card {
+            background: white;
+            border-radius: 16px;
+            padding: 16px 18px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+            border: 1px solid #efe6e0;
+            text-decoration: none;
+            color: #3e2723;
+            display: flex;
+            flex-direction: column;
+            transition: 0.15s;
+        }
+        .link-card:active {
+            background: #f5f0ec;
+            transform: scale(0.97);
+        }
+        .link-card .title {
+            font-weight: 600;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .link-card .desc {
+            font-size: 13px;
+            color: #6d4c41;
+            margin-top: 2px;
+            opacity: 0.8;
+        }
+        .link-card .badge {
+            font-size: 11px;
+            background: #efebe9;
+            color: #4e342e;
+            padding: 2px 10px;
+            border-radius: 30px;
+            align-self: flex-start;
+            margin-top: 6px;
+        }
+        .hidden { display: none; }
+        .empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: #8d6e63;
+            font-size: 18px;
+            grid-column: 1 / -1;
+        }
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #a1887f;
+            font-size: 13px;
+            border-top: 1px solid #e0d6cf;
+            padding-top: 24px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>☕ База знаний кофейни</h1>
+        <div class="sub">Все инструкции, рецепты и стандарты в одном месте</div>
+    </div>
+
+    <div class="search-wrap">
+        <input type="text" id="searchInput" placeholder="Поиск по названию..." oninput="filterLinks()">
+    </div>
+
+    <div id="categoriesContainer"></div>
+
+    <div class="footer">Обновлено: 28.07.2026 · Версия 2.0</div>
+</div>
+
+<script>
+    // ==================== ДАННЫЕ ====================
+    // Замените ссылки (url) на свои реальные адреса
+    // Для документов, видео, таблиц и т.д.
+    const data = {
+        "🖥 Iiko": [
+            { title: "Инструкция по работе с доставкой ЯндексЕда", url: "#", badge: "Инструкция" },
+            { title: "Правила заказа десертов в iiko Office (Вологда)", url: "#", badge: "Инструкция" },
+            { title: "Скидка для офиса", url: "#", badge: "Документ" },
+            { title: "Работа с подарочными сертификатами", url: "#", badge: "Инструкция" }
+        ],
+        "🍽 МЕНЮ": [
+            { title: "Основное меню (составы)", url: "#", badge: "Составы" },
+            { title: "SPECIAL МЕНЮ (составы)", url: "#", badge: "Составы" },
+            { title: "Десерты (составы)", url: "https://disk.yandex.ru/d/hhOttWTO7zIRpg", badge: "Составы" },
+            { title: "Вкусные описания для десертов", url: "#", badge: "Описания" },
+            { title: "Основные аллергены", url: "#", badge: "Справочник" }
+        ],
+        "☕ КОФЕ": [
+            { title: "Технологические карты всех напитков", url: "#", badge: "ТТК" },
+            { title: "Технологические карты айс-напитки", url: "#", badge: "ТТК" },
+            { title: "Вкусные описания для напитков", url: "#", badge: "Описания" },
+            { title: "SPECIAL меню (видео, как готовить напитки)", url: "#", badge: "Видео" },
+            { title: "Вкусовой круг для бариста", url: "#", badge: "Справочник" },
+            { title: "Чистка кофемолки (видео)", url: "#", badge: "Видео" },
+            { title: "Барное оборудование и инвентарь", url: "#", badge: "Инструкция" },
+            { title: "Промывание тачки утром", url: "#", badge: "Инструкция" },
+            { title: "Настройка помола", url: "#", badge: "Инструкция" },
+            { title: "Весенний SPECIAL - ТТК и видео", url: "#", badge: "ТТК+Видео" }
+        ],
+        "🤝 СЕРВИС": [
+            { title: "Типы гостей и как с ними работать", url: "#", badge: "Скрипты" },
+            { title: "Правило трёх при приёме заказа", url: "#", badge: "Стандарт" },
+            { title: "Акция третий десерт со скидкой 50%", url: "#", badge: "Акция" },
+            { title: "Что такое минимальный и средний чек", url: "#", badge: "Справочник" },
+            { title: "Бонусная программа - как предлагать правильно", url: "#", badge: "Скрипты" },
+            { title: "Темп сервиса: как не терять гостя", url: "#", badge: "Стандарт" }
+        ],
+        "📋 СТАНДАРТЫ / ИНСТРУКЦИИ": [
+            { title: "Должностная инструкция бариста", url: "#", badge: "Документ" },
+            { title: "Внутренние правила для сотрудников кофейни", url: "#", badge: "Правила" },
+            { title: "Инструкция по акции «Бесплатный кофе за отзыв»", url: "#", badge: "Акция" },
+            { title: "Сроки хранения продуктов и заготовок на баре", url: "#", badge: "Стандарт" },
+            { title: "Маркировка и контроль сроков десертов", url: "#", badge: "Стандарт" },
+            { title: "Стандарт витрины", url: "#", badge: "Стандарт" },
+            { title: "Стандарт сервировки столов", url: "#", badge: "Стандарт" },
+            { title: "Стандарты чистоты", url: "#", badge: "Стандарт" }
+        ],
+        "🍳 КУХНЯ": [
+            { title: "Заготовки в заморозке", url: "#", badge: "Сроки" },
+            { title: "Заготовки и сроки хранения в холодильнике", url: "#", badge: "Сроки" },
+            { title: "Сроки хранения заготовок на кухне", url: "#", badge: "Сроки" },
+            { title: "Стандарты упаковки блюд кухни (выдача с собой и доставка)", url: "#", badge: "Стандарт" },
+            { title: "Инструкция приёма продуктов", url: "#", badge: "Инструкция" },
+            { title: "Оборудование кухни", url: "#", badge: "Инструкция" },
+            { title: "Товарное соседство в холодильнике", url: "#", badge: "Стандарт" },
+            { title: "Технологические карты и полуфабрикаты", url: "#", badge: "ТТК" },
+            { title: "Полуфабрикаты на панкейки", url: "#", badge: "Рецепт" }
+        ]
+    };
+
+    // ==================================================
+    //  НИЖЕ КОД ДЛЯ ГЕНЕРАЦИИ – НЕ ТРОГАЙТЕ
+    // ==================================================
+    const container = document.getElementById('categoriesContainer');
+
+    function renderAll(filter = '') {
+        let html = '';
+        let anyVisible = false;
+        const lowerFilter = filter.toLowerCase();
+
+        for (const [cat, items] of Object.entries(data)) {
+            let cardHtml = '';
+            let catHasVisible = false;
+
+            items.forEach(item => {
+                const match = lowerFilter === '' || item.title.toLowerCase().includes(lowerFilter);
+                if (match) { catHasVisible = true; anyVisible = true; }
+                const badge = item.badge ? `<span class="badge">${item.badge}</span>` : '';
+                cardHtml += `
+                    <a href="${item.url}" target="_blank" class="link-card ${match ? '' : 'hidden'}">
+                        <div class="title">📄 ${item.title}</div>
+                        ${badge}
+                    </a>
+                `;
+            });
+
+            html += `
+                <div class="category ${catHasVisible ? '' : 'hidden'}">
+                    <div class="category-title"><span class="icon">${cat.split(' ')[0]}</span> ${cat}</div>
+                    <div class="card-grid">${cardHtml}</div>
+                </div>
+            `;
+        }
+
+        if (!anyVisible && filter.trim() !== '') {
+            html = `<div class="empty">😕 Ничего не найдено. Попробуйте другой запрос.</div>`;
+        }
+
+        container.innerHTML = html;
+    }
+
+    function filterLinks() {
+        const input = document.getElementById('searchInput');
+        renderAll(input.value);
+    }
+
+    renderAll('');
+</script>
+</body>
+</html>
