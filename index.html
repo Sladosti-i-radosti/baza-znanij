@@ -215,7 +215,7 @@
         <a href="#cat-coffee">Кофе</a>
         <a href="#cat-menu">Меню</a>
         <a href="#cat-service">Сервис</a>
-        <a href="#cat-standards">Инструкции</a>
+        <a href="#cat-standards">Стандарты</a>
         <a href="#cat-cash">Касса</a>
         <a href="#cat-kitchen">Кухня</a>
     </div>
@@ -228,8 +228,8 @@
             <button class="filter-btn active" data-category="all">Все</button>
             <button class="filter-btn" data-category="кофе">Кофе</button>
             <button class="filter-btn" data-category="меню">Меню</button>
-            <button class="filter-btn" data-category="сервис">Срвис</button>
-            <button class="filter-btn" data-category="стандарты">Инструкции</button>
+            <button class="filter-btn" data-category="сервис">Сервис</button>
+            <button class="filter-btn" data-category="стандарты">Стандарты</button>
             <button class="filter-btn" data-category="касса">Касса</button>
             <button class="filter-btn" data-category="кухня">Кухня</button>
         </div>
@@ -262,7 +262,7 @@
             { title: "Бонусная программа", url: "#", badge: "Инструкция" },
             { title: "Бесплатный кофе за отзыв", url: "#", badge: "Акция" }
         ],
-        "Инструкции": [
+        "Стандарты": [
             { title: "Должностная инструкция бариста", url: "#", badge: "Документ" },
             { title: "Внутренние правила для сотрудников кофейни", url: "#", badge: "Правила" },
             { title: "Сроки хранения продуктов и заготовок на баре", url: "#", badge: "Стандарт" },
@@ -306,7 +306,6 @@
             let cardHtml = '';
             let catHasVisible = false;
 
-            // Проверяем, показывать ли категорию целиком
             const categoryMatch = category === 'all' || cat.toLowerCase() === category;
 
             items.forEach(item => {
