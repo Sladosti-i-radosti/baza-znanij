@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Барное оборудование и инвентарь</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background: #faf7f2;
+            padding: 20px 16px 40px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            margin-bottom: 24px;
+        }
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #3e2723;
+            margin-bottom: 6px;
+        }
+        .header .sub {
+            color: #6d4c41;
+            font-size: 15px;
+            border-left: 4px solid #a1887f;
+            padding-left: 12px;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #8d6e63;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 60px;
+            font-size: 15px;
+            font-weight: 500;
+            transition: 0.15s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: #6d4c41;
+        }
+        .btn:active {
+            transform: scale(0.97);
+        }
+        .btn.secondary {
+            background: #efebe9;
+            color: #4e342e;
+        }
+        .btn.secondary:hover {
+            background: #e0d6cf;
+        }
+
+        .pdf-viewer {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+            border: 1px solid #efe6e0;
+            margin-bottom: 20px;
+        }
+        .pdf-viewer iframe {
+            width: 100%;
+            height: 80vh;
+            min-height: 500px;
+            border: none;
+            display: block;
+        }
+
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 14px 18px;
+            border-radius: 12px;
+            font-size: 14px;
+            color: #5d4037;
+            margin-bottom: 20px;
+        }
+        .note strong {
+            color: #3e2723;
+        }
+
+        .fallback {
+            text-align: center;
+            padding: 40px 20px;
+            color: #8d6e63;
+        }
+        .fallback p {
+            margin-bottom: 16px;
+            font-size: 16px;
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #a1887f;
+            font-size: 13px;
+            border-top: 1px solid #e0d6cf;
+            padding-top: 24px;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 24px;
+            }
+            .pdf-viewer iframe {
+                height: 70vh;
+                min-height: 400px;
+            }
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Барное оборудование и инвентарь</h1>
+        <div class="sub">Инструкции, правила эксплуатации и ухода</div>
+    </div>
+
+    <div class="actions">
+        <a href="bar_equipment.pdf" target="_blank" class="btn">
+            📄 Открыть PDF в новой вкладке
+        </a>
+        <a href="bar_equipment.pdf" download class="btn secondary">
+            ⬇️ Скачать PDF
+        </a>
+    </div>
+
+    <div class="note">
+        <strong>Совет:</strong> Если PDF не отображается на телефоне, нажмите кнопку <strong>«Открыть PDF в новой вкладке»</strong> — документ откроется в браузере или в приложении для просмотра PDF.
+    </div>
+
+    <div class="pdf-viewer">
+        <iframe
+            src="bar_equipment.pdf"
+            title="Барное оборудование и инвентарь">
+            <div class="fallback">
+                <p>Ваш браузер не поддерживает встроенный просмотр PDF.</p>
+                <a href="bar_equipment.pdf" target="_blank" class="btn">Открыть PDF</a>
+            </div>
+        </iframe>
+    </div>
+
+    <div class="footer">Обновлено: 22.09.2026</div>
+</div>
+</body>
+</html>
