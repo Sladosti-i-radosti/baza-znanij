@@ -1,0 +1,73 @@
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+    body { background: #FCF2F6; padding: 20px 16px 40px; min-height: 100vh; }
+
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    /* Заголовки */
+    .header { margin-bottom: 24px; }
+    .header h1 { font-size: 28px; font-weight: 700; color: #E62369; margin-bottom: 6px; }
+    .header .sub { color: #8B234A; font-size: 15px; border-left: 4px solid #70C7D8; padding-left: 12px; }
+
+    /* Поиск */
+    .controls { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; align-items: center; }
+    .search-wrap { flex: 1; min-width: 200px; position: relative; }
+    .search-wrap input {
+        width: 100%; padding: 12px 18px 12px 48px; border-radius: 60px;
+        border: 2px solid #F7CBCA; background: white; font-size: 16px;
+        outline: none; transition: 0.2s;
+        box-shadow: 0 2px 8px rgba(230, 35, 105, 0.05);
+    }
+    .search-wrap input:focus { border-color: #70C7D8; box-shadow: 0 4px 12px rgba(112, 199, 216, 0.25); }
+    .search-wrap::before { content: "🔍"; position: absolute; left: 18px; top: 50%; transform: translateY(-50%); font-size: 20px; opacity: 0.6; }
+
+    /* Сетка карточек */
+    .grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+    @media (min-width: 600px) { .grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 900px) { .grid { grid-template-columns: 1fr 1fr 1fr; } }
+
+    /* Карточка */
+    .card {
+        background: white; border-radius: 24px; padding: 20px 18px;
+        box-shadow: 0 4px 16px rgba(230, 35, 105, 0.06);
+        border: 1px solid #F7CBCA;
+        display: flex; flex-direction: column; transition: 0.15s;
+    }
+    .card.hidden { display: none; }
+
+    /* Заголовок карточки */
+    .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
+    .card-header h2 { font-size: 20px; font-weight: 700; color: #E62369; margin: 0; }
+
+    /* Срок годности / объём */
+    .shelf-life, .volume {
+        background: #D2F0F2; color: #3A7A88;
+        font-size: 13px; font-weight: 600;
+        padding: 4px 12px; border-radius: 30px; white-space: nowrap;
+    }
+
+    /* Категория (для кофе/чаёв) */
+    .category-tag { font-size: 12px; background: #FFD1DC; color: #8B234A; padding: 2px 10px; border-radius: 30px; align-self: flex-start; margin: 4px 0 8px; }
+
+    /* Разделы внутри карточки */
+    .section { margin-top: 12px; border-top: 1px solid #FCF2F6; padding-top: 10px; }
+    .section:first-of-type { border-top: none; padding-top: 0; }
+    .section-title { font-weight: 600; font-size: 14px; color: #8B234A; margin-bottom: 4px; }
+    .section-content { font-size: 14px; line-height: 1.6; color: #3e2723; }
+
+    /* Плашки ингредиентов */
+    .ingredient-list { display: flex; flex-wrap: wrap; gap: 4px 12px; }
+    .ingredient-item { background: #FFD1DC; color: #8B234A; padding: 2px 10px; border-radius: 20px; font-size: 13px; }
+
+    /* Дополнительные ингредиенты */
+    .extra { background: #FFEDCD; color: #8B6914; padding: 2px 10px; border-radius: 20px; font-size: 13px; display: inline-block; margin-top: 4px; }
+
+    /* Пусто */
+    .empty { text-align: center; padding: 60px 20px; color: #B8A0AA; font-size: 18px; grid-column: 1 / -1; }
+
+    /* Кнопки фильтра */
+    .filter-btn { background: #FFEDCD; border: none; padding: 8px 16px; border-radius: 30px; font-size: 14px; font-weight: 500; color: #8B6914; cursor: pointer; transition: 0.15s; white-space: nowrap; }
+    .filter-btn.active { background: #70C7D8; color: white; }
+    .filter-btn:active { transform: scale(0.95); }
+
+    /* Футер */
+    .footer { margin-top: 40px; text-align: center; color: #B8A0AA; font-size: 13px; border-top: 1px solid #F7CBCA; padding-top: 24px; }
