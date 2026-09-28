@@ -5,40 +5,182 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>База знаний — Десерты</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
-        body { background: #faf7f2; padding: 20px 16px 40px; min-height: 100vh; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .header { margin-bottom: 24px; }
-        .header h1 { font-size: 28px; font-weight: 700; color: #3e2723; margin-bottom: 6px; }
-        .header .sub { color: #6d4c41; font-size: 15px; border-left: 4px solid #a1887f; padding-left: 12px; }
-        .controls { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 28px; align-items: center; }
-        .search-wrap { flex: 1; min-width: 200px; position: relative; }
-        .search-wrap input { width: 100%; padding: 12px 18px 12px 48px; border-radius: 60px; border: 1px solid #d7ccc8; background: white; font-size: 16px; outline: none; transition: 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
-        .search-wrap input:focus { border-color: #8d6e63; box-shadow: 0 4px 12px rgba(109,76,65,0.15); }
-        .search-wrap::before { content: "🔍"; position: absolute; left: 18px; top: 50%; transform: translateY(-50%); font-size: 20px; opacity: 0.6; }
-        .grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
-        @media (min-width: 600px) { .grid { grid-template-columns: 1fr 1fr; } }
-        @media (min-width: 900px) { .grid { grid-template-columns: 1fr 1fr 1fr; } }
-        .card { background: white; border-radius: 24px; padding: 20px 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.05); border: 1px solid #efe6e0; display: flex; flex-direction: column; transition: 0.15s; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background: #FEF8FA;
+            padding: 20px 16px 40px;
+            min-height: 100vh;
+            color: #2B2B2B;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            margin-bottom: 24px;
+        }
+        .header h1 {
+            font-size: 30px;
+            font-weight: 800;
+            color: #2B2B2B;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        .header .sub {
+            color: #2B2B2B;
+            font-size: 15px;
+            border-left: 4px solid #E62369;
+            padding-left: 12px;
+            line-height: 1.5;
+        }
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 28px;
+            align-items: center;
+        }
+        .search-wrap {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+        }
+        .search-wrap input {
+            width: 100%;
+            padding: 14px 20px 14px 48px;
+            border-radius: 60px;
+            border: 2px solid #FAD4DE;
+            background: white;
+            font-size: 16px;
+            outline: none;
+            transition: 0.2s;
+            box-shadow: 0 2px 12px rgba(230, 35, 105, 0.05);
+            color: #2B2B2B;
+        }
+        .search-wrap input:focus {
+            border-color: #70C7D8;
+            box-shadow: 0 4px 16px rgba(112, 199, 216, 0.25);
+        }
+        .search-wrap::before {
+            content: "🔍";
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            opacity: 0.6;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        @media (min-width: 600px) {
+            .grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (min-width: 900px) {
+            .grid { grid-template-columns: 1fr 1fr 1fr; }
+        }
+        .card {
+            background: #FFFFFF;
+            border-radius: 28px;
+            padding: 22px 20px;
+            box-shadow: 0 6px 20px rgba(230, 35, 105, 0.05);
+            border: 1px solid #FAD4DE;
+            display: flex;
+            flex-direction: column;
+            transition: 0.2s;
+        }
         .card.hidden { display: none; }
-        .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 6px; }
-        .card-header h2 { font-size: 20px; font-weight: 700; color: #3e2723; margin: 0; }
-        .shelf-life { background: #efebe9; color: #4e342e; font-size: 13px; font-weight: 600; padding: 4px 12px; border-radius: 30px; white-space: nowrap; }
-        .section { margin-top: 12px; border-top: 1px solid #f1ebe7; padding-top: 10px; }
-        .section:first-of-type { border-top: none; padding-top: 0; }
-        .section-title { font-weight: 600; font-size: 14px; color: #6d4c41; margin-bottom: 4px; }
-        .section-content { font-size: 14px; line-height: 1.6; color: #3e2723; }
-        .ingredient-list { display: flex; flex-wrap: wrap; gap: 4px 12px; }
-        .ingredient-item { background: #f5f0ec; padding: 2px 10px; border-radius: 20px; font-size: 13px; }
-        .empty { text-align: center; padding: 60px 20px; color: #8d6e63; font-size: 18px; grid-column: 1 / -1; }
-        .footer { margin-top: 40px; text-align: center; color: #a1887f; font-size: 13px; border-top: 1px solid #e0d6cf; padding-top: 24px; }
+        .card:hover {
+            box-shadow: 0 8px 24px rgba(230, 35, 105, 0.1);
+            transform: translateY(-2px);
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .card-header h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2B2B2B;
+            margin: 0;
+            line-height: 1.3;
+        }
+        .shelf-life {
+            background: #FFD1DC;
+            color: #8B234A;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 5px 14px;
+            border-radius: 30px;
+            white-space: nowrap;
+        }
+        .section {
+            margin-top: 14px;
+            border-top: 1px solid #FAD4DE;
+            padding-top: 12px;
+        }
+        .section:first-of-type {
+            border-top: none;
+            padding-top: 0;
+        }
+        .section-title {
+            font-weight: 700;
+            font-size: 13px;
+            color: #E62369;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .section-content {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #2B2B2B;
+        }
+        .ingredient-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px 8px;
+        }
+        .ingredient-item {
+            background: #D2F0F2;
+            color: #2B7A8A;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            border: 1px solid #B8E4E8;
+        }
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: #B8A0AA;
+            font-size: 18px;
+            grid-column: 1 / -1;
+        }
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #B8A0AA;
+            font-size: 13px;
+            border-top: 1px solid #FAD4DE;
+            padding-top: 24px;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="header">
-        <h1>База знаний кофейни</h1>
-        <div class="sub">Составы, сроки годности и описания десертов</div>
+        <h1>Десерты</h1>
+        <div class="sub">Составы, сроки годности и описания</div>
     </div>
 
     <div class="controls">
@@ -49,7 +191,7 @@
 
     <div class="grid" id="cardGrid"></div>
 
-    <div class="footer">Обновлено: 25.09.2026</div>
+    <div class="footer">Обновлено: 28.09.2026</div>
 </div>
 
 <script>
@@ -96,7 +238,7 @@
         { name: "Печенье брутти и бони", shelf: "14 дней", ingredients: ["Фундук", "Сахар", "Белок жидкий"], description: "Хрустящее ореховое печенье из фундука. Легкое, сладкое, с карамельной ноткой." },
         { name: "Тартин", shelf: "1,5 суток", ingredients: ["Мука пшеничная", "Вода", "Закваска (мука, вода)", "Мука цельнозерновая", "Соль"], description: "Хлеб на закваске с плотной текстурой. Натуральный вкус с легкой кислинкой." },
         { name: "Капкейк красный бархат (розовый крем)", shelf: "72 часа", ingredients: ["Крем: сыр творожный, сахарная пудра, сливки", "Бисквит: мука пшеничная, яйцо, сахар-песок, масло сливочное, какао, разрыхлитель, соль, краситель пищевой", "Начинка (кули малина): малина зам., пектин, сахар, лимонная кислота", "Сироп: сахар, вода"], description: "Капкейк с малиновой начинкой и кремом из творожного сыра. Нежный и яркий." },
-        { name: "Капкейк шоколадный с карамелью", shelf: "72 часа", ingredients: ["Крем: сыр творожный, сахарная пудра, сливки, краситель", "Бисквит: сахар, яйцо, масло сливочное, темный шоколад, мука пшеничная, какао, разрыхлитель, соль", "Карамель: сахар, сливки, масло сливочное, вода, глюкозный сироп", "Сироп: сахар, вода"], description: "Шоколадный капкейк с карамельной начинкой. Насыщенный вкус с мягким кремом." },
+        { name: "Капкейк шоколадный с карамелью", shelf: "72 часа", ingredients: ["Крем: сыр творожный, сахарная пудра, сливки, краситель", "Бисквит: сахар, яйцо, масло сливочное, темный шоколад, мука пшеничная, какао, разрыхлитель, соль", "Карамель: сахар, сливки, масло сливочное, вода, глюкозный сироп", "Сироп: сахар, вода"], description: "Шоколадный капкейк с карамельной начинкой. Насыщенный вкус с мягким кремом." }
     ];
 
     const grid = document.getElementById('cardGrid');
