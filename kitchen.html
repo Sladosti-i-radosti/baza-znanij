@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>База знаний — Кухня</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background: #FEF8FA;
+            padding: 20px 16px 40px;
+            min-height: 100vh;
+            color: #2B2B2B;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header { margin-bottom: 24px; }
+        .header h1 {
+            font-size: 30px;
+            font-weight: 800;
+            color: #2B2B2B;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        .header .sub {
+            color: #2B2B2B;
+            font-size: 15px;
+            border-left: 4px solid #E62369;
+            padding-left: 12px;
+            line-height: 1.5;
+        }
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 28px;
+            align-items: center;
+        }
+        .search-wrap {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+        }
+        .search-wrap input {
+            width: 100%;
+            padding: 14px 20px 14px 48px;
+            border-radius: 60px;
+            border: 2px solid #FAD4DE;
+            background: white;
+            font-size: 16px;
+            outline: none;
+            transition: 0.2s;
+            box-shadow: 0 2px 12px rgba(230, 35, 105, 0.06);
+            color: #2B2B2B;
+        }
+        .search-wrap input:focus {
+            border-color: #70C7D8;
+            box-shadow: 0 4px 16px rgba(112, 199, 216, 0.25);
+        }
+        .search-wrap::before {
+            content: "🔍";
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            opacity: 0.6;
+        }
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .filter-btn {
+            background: #D2F0F2;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #2B7A8A;
+            cursor: pointer;
+            transition: 0.15s;
+            white-space: nowrap;
+        }
+        .filter-btn.active {
+            background: #FFD1DC;
+            color: #8B234A;
+        }
+        .filter-btn:active { transform: scale(0.95); }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        @media (min-width: 600px) { .grid { grid-template-columns: 1fr 1fr; } }
+        @media (min-width: 900px) { .grid { grid-template-columns: 1fr 1fr 1fr; } }
+        .card {
+            background: #FFFFFF;
+            border-radius: 28px;
+            padding: 22px 20px;
+            box-shadow: 0 6px 20px rgba(230, 35, 105, 0.05);
+            border: 1px solid #FAD4DE;
+            display: flex;
+            flex-direction: column;
+            transition: 0.2s;
+        }
+        .card.hidden { display: none; }
+        .card:hover {
+            box-shadow: 0 8px 24px rgba(230, 35, 105, 0.1);
+            transform: translateY(-2px);
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .card-header h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2B2B2B;
+            margin: 0;
+            line-height: 1.3;
+        }
+        .category-tag {
+            font-size: 12px;
+            background: #FFD1DC;
+            color: #8B234A;
+            padding: 3px 12px;
+            border-radius: 30px;
+            align-self: flex-start;
+            margin: 4px 0 10px;
+            font-weight: 500;
+        }
+        .section {
+            margin-top: 14px;
+            border-top: 1px solid #FAD4DE;
+            padding-top: 12px;
+        }
+        .section:first-of-type { border-top: none; padding-top: 0; }
+        .section-title {
+            font-weight: 700;
+            font-size: 13px;
+            color: #E62369;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .section-content {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #2B2B2B;
+        }
+        .ingredient-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px 8px;
+        }
+        .ingredient-item {
+            background: #D2F0F2;
+            color: #2B7A8A;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            border: 1px solid #B8E4E8;
+        }
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: #B8A0AA;
+            font-size: 18px;
+            grid-column: 1 / -1;
+        }
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #B8A0AA;
+            font-size: 13px;
+            border-top: 1px solid #FAD4DE;
+            padding-top: 24px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Кухня</h1>
+        <div class="sub">Завтраки, каши, супы, паста, салаты, бургеры и десерты</div>
+    </div>
+
+    <div class="controls">
+        <div class="search-wrap">
+            <input type="text" id="searchInput" placeholder="Поиск по названию или составу..." oninput="applyFilters()">
+        </div>
+        <div class="filter-buttons" id="filterButtons">
+            <button class="filter-btn active" data-category="all">Все</button>
+            <button class="filter-btn" data-category="Завтраки">Завтраки</button>
+            <button class="filter-btn" data-category="Каши">Каши</button>
+            <button class="filter-btn" data-category="Супы">Супы</button>
+            <button class="filter-btn" data-category="Паста">Паста</button>
+            <button class="filter-btn" data-category="Салаты">Салаты</button>
+            <button class="filter-btn" data-category="Бургеры">Бургеры</button>
+            <button class="filter-btn" data-category="На десерт">На десерт</button>
+        </div>
+    </div>
+
+    <div class="grid" id="cardGrid"></div>
+
+    <div class="footer">Обновлено: 28.09.2026</div>
+</div>
+
+<script>
+    const dishes = [
+        { name: "Завтрак с глазуньей и фермерской ветчиной", category: "Завтраки",
+          ingredients: ["Глазунья", "Ветчина из индейки", "Помидоры черри", "Свежий огурец", "Руккола", "Тартин", "Ароматное сливочное масло"],
+          description: "Сытный завтрак с нежной глазуньей и фермерской ветчиной из индейки. Свежие овощи и руккола добавляют лёгкости, а тартин с маслом — хрустящую нотку." },
+
+        { name: "Завтрак со скрэмблом и лососем", category: "Завтраки",
+          ingredients: ["Скрэмбл", "Соус голландез", "Творожный сыр", "Гуакамоле", "Лосось", "Салат из черри с рукколой", "Сыр пармезан", "Хлеб тартин"],
+          description: "Нежный скрэмбл с лососем и соусом голландез. Творожный сыр и гуакамоле придают сливочную мягкость, а пармезан — пикантную нотку." },
+
+        { name: "Завтрак с глазуньей, колбаской и зеленым салатом", category: "Завтраки",
+          ingredients: ["Глазунья", "Пикантная колбаска", "Помидоры черри", "Свежий огурец", "Шпинат", "Руккола", "Укропное масло"],
+          description: "Ароматная глазунья с пикантной колбаской и свежим зелёным салатом. Укропное масло добавляет лёгкую пряность и свежесть." },
+
+        { name: "Нежный омлет с овощным салатом", category: "Завтраки",
+          ingredients: ["Омлет", "Помидоры черри", "Свежий огурец", "Руккола", "Шпинат", "Укропное масло", "Хлеб тартин"],
+          description: "Воздушный омлет с овощным салатом и хрустящим тартином. Лёгкий, полезный и идеальный для утреннего старта." },
+
+        { name: "Драники с семгой слабой соли и яйцом пашот", category: "Завтраки",
+          ingredients: ["Картофельные драники", "Сметанный соус", "Семга слабой соли", "Яйцо пашот", "Руккола", "Сыр пармезан"],
+          description: "Хрустящие драники с нежной семгой и яйцом пашот. Сметанный соус и пармезан создают идеальный баланс вкусов." },
+
+        { name: "Драники с беконом и яйцом пашот", category: "Завтраки",
+          ingredients: ["Картофельные драники", "Сметанный соус", "Хрустящий жареный бекон", "Яйцо пашот", "Руккола"],
+          description: "Золотистые драники с хрустящим беконом и яйцом пашот. Сытный и ароматный завтрак для настоящих гурманов." },
+
+        { name: "Авокадо-тост с яйцом пашот и соусом голландез", category: "Завтраки",
+          ingredients: ["Хлеб тартин", "Творожный сыр", "Гуакамоле", "Яйцо пашот", "Нежный соус голландез", "Руккола"],
+          description: "Хрустящий тост с гуакамоле, яйцом пашот и соусом голландез. Нежный, сливочный и невероятно вкусный." },
+
+        { name: "Тост с ветчиной из индейки", category: "Завтраки",
+          ingredients: ["Тартин", "Творожный сыр", "Фермерская ветчина", "Свежий шпинат", "Руккола", "Помидоры черри", "Зеленое масло"],
+          description: "Тост с нежной ветчиной из индейки и творожным сыром. Свежая зелень и черри добавляют яркости." },
+
+        { name: "Сырники с лососем и муссом из пармезана", category: "Завтраки",
+          ingredients: ["Соленые сырники", "Мусс из пармезана", "Свежая семга слабой соли", "Соус песто", "Сыр пармезан"],
+          description: "Солёные сырники с лососем и нежным муссом из пармезана. Соус песто добавляет ароматную нотку." },
+
+        { name: "Овсяная каша с карамелизированным бананом", category: "Каши",
+          ingredients: ["Овсянка", "Теплый карамелизированный банан", "Домашняя карамель"],
+          description: "Тёплая овсяная каша с карамелизированным бананом и домашней карамелью. Уютный и сладкий завтрак." },
+
+        { name: "Рисовая каша со свежими ягодами и конфитюром из манго", category: "Каши",
+          ingredients: ["Рисовая каша", "Конфитюр из манго", "Сублимированная малина", "Голубика"],
+          description: "Нежная рисовая каша с конфитюром из манго и свежими ягодами. Лёгкая сладость и ягодная кислинка." },
+
+        { name: "Зелёная гречка с жареным халуми", category: "Каши",
+          ingredients: ["Зеленая гречка", "Сыр халуми", "Руккола", "Помидоры черри", "Яйцо пашот", "Сыр пармезан"],
+          description: "Полезная зелёная гречка с жареным халуми и яйцом пашот. Сытное и сбалансированное блюдо." },
+
+        { name: "Тыквенный суп с креветками и тартином", category: "Супы",
+          ingredients: ["Тыква", "Морковь", "Картофель", "Креветки", "Сливки", "Семена тыквы", "Ароматный хлеб тартин"],
+          description: "Бархатистый тыквенный суп с креветками и семенами тыквы. Сливки придают нежность, а тартин — хруст." },
+
+        { name: "Грибной крем-суп с теплым хлебом", category: "Супы",
+          ingredients: ["Шампиньоны", "Картофель", "Сливки", "Лук", "Тартин"],
+          description: "Ароматный грибной крем-суп с тёплым хлебом. Насыщенный вкус с бархатистой текстурой." },
+
+        { name: "Спагетти карбонара", category: "Паста",
+          ingredients: ["Спагетти", "Сливки", "Бекон", "Сыр пармезан", "Сырое яйцо-желток", "Помидоры черри"],
+          description: "Классическая карбонара со сливками, беконом и пармезаном. Насыщенный сливочный вкус с хрустящим беконом." },
+
+        { name: "Птитим с креветками и соусом блю чиз", category: "Паста",
+          ingredients: ["Птитим", "Креветки", "Помидоры черри", "Вяленые томаты", "Руккола", "Сыр пармезан", "Мусс из пармезана", "Сливки", "Сыр дор блю"],
+          description: "Птитим с креветками и пикантным соусом блю чиз. Вяленые томаты и руккола добавляют яркость." },
+
+        { name: "Сливочная паста с курицей и сыром", category: "Паста",
+          ingredients: ["Спагетти", "Курица", "Сливки", "Сыр пармезан", "Помидоры черри"],
+          description: "Нежная сливочная паста с курицей и пармезаном. Сытное и ароматное блюдо для любого времени." },
+
+        { name: "Цезарь с курицей", category: "Салаты",
+          ingredients: ["Салат айсберг", "Соус цезарь", "Куриная грудка", "Хрустящие гренки", "Помидоры черри", "Сыр пармезан"],
+          description: "Классический цезарь с сочной курицей и хрустящими гренками. Соус цезарь и пармезан — идеальное сочетание." },
+
+        { name: "Цезарь с креветками", category: "Салаты",
+          ingredients: ["Салат айсберг", "Соус цезарь", "Обжаренные креветки", "Помидоры черри", "Сыр пармезан", "Гренки"],
+          description: "Цезарь с обжаренными креветками и хрустящими гренками. Лёгкий и изысканный салат." },
+
+        { name: "Теплый салат с куриной грудкой в медово-горчичной заправке", category: "Салаты",
+          ingredients: ["Филе куриной грудки", "Салат айсберг", "Руккола", "Томаты", "Свежий огурец", "Сыр пармезан", "Медово-горчичная заправка"],
+          description: "Тёплый салат с куриной грудкой и медово-горчичной заправкой. Сладковато-пряный вкус с хрустящими овощами." },
+
+        { name: "Салат с курицей, страчателлой и цитрусовой заправкой", category: "Салаты",
+          ingredients: ["Салат айсберг", "Куриная грудка", "Зелёные бобы эдамаме", "Японский цитрус юдзу", "Страчателла", "Помидоры черри", "Брокколи"],
+          description: "Салат с курицей, страчателлой и цитрусовой заправкой юдзу. Свежий и яркий вкус с нежной сливочностью." },
+
+        { name: "Салат с креветками, брокколи и цитрусовой заправкой", category: "Салаты",
+          ingredients: ["Салат айсберг", "Креветки", "Бобы эдамаме", "Юдзу", "Страчателла", "Помидоры черри", "Брокколи"],
+          description: "Лёгкий салат с креветками, брокколи и заправкой юдзу. Цитрусовая свежесть и сливочная страчателла." },
+
+        { name: "Бургер Финляндия", category: "Бургеры",
+          ingredients: ["Пшеничная булочка", "Говяжья котлета", "Лист салата айсберг", "Помидор", "Кисло-сладкий соус", "Чеддер", "Сладкая горчица", "Домашние маринованные огурчики", "Золотистый лук фри"],
+          description: "Сочный бургер с говяжьей котлетой, чеддером и хрустящим луком фри. Кисло-сладкий соус и огурчики добавляют яркости." },
+
+        { name: "Бургер Итальянцы в России", category: "Бургеры",
+          ingredients: ["Пшеничная булочка", "Говяжья котлета", "Сыр пармезан", "Чесночный соус с пармезаном", "Лук", "Помидор", "Свежая руккола", "Бальзамический крем", "Соус песто"],
+          description: "Бургер с говяжьей котлетой, пармезаном и соусом песто. Бальзамический крем и руккола придают итальянский характер." },
+
+        { name: "Бургер Блю Чиз Чикен", category: "Бургеры",
+          ingredients: ["Пшеничная булочка", "Сочная куриная грудка", "Классический соус блю чиз", "Сыр пармезан", "Помидор", "Салат айсберг"],
+          description: "Бургер с сочной куриной грудкой и соусом блю чиз. Пикантный вкус с нежной сливочностью." },
+
+        { name: "Бургер Местный парень", category: "Бургеры",
+          ingredients: ["Пшеничная булочка", "Говяжья котлета", "Домашний соус \"Местный парень\" (майонез, горчица, сыр пармезан)", "Жареный бекон", "Сыр чеддер", "Помидор", "Салат айсберг", "Вишневый конфитюр"],
+          description: "Бургер с говяжьей котлетой, беконом и чеддером. Вишнёвый конфитюр добавляет неожиданную сладкую нотку." },
+
+        { name: "Вафли со сливочным соусом и ягодами", category: "На десерт",
+          ingredients: ["Вафля", "Соус сливочный", "Голубика", "Клубника", "Сахарная пудра", "Маршмеллоу"],
+          description: "Тёплые вафли со сливочным соусом и свежими ягодами. Нежный десерт с лёгкой сладостью." },
+
+        { name: "Вафли с нутеллой, киви и бананом", category: "На десерт",
+          ingredients: ["Вафля", "Нутелла", "Киви", "Банан", "Сахарная пудра"],
+          description: "Хрустящие вафли с нутеллой, киви и бананом. Шоколадный вкус с фруктовой свежестью." },
+
+        { name: "Вафли с карамелью, орехами и мороженым", category: "На десерт",
+          ingredients: ["Вафля", "Карамель", "Миндаль в карамели", "Сахарная пудра", "Пломбир"],
+          description: "Вафли с карамелью, хрустящим миндалём и шариком пломбира. Насыщенный десерт для сладкоежек." }
+    ];
+
+    const grid = document.getElementById('cardGrid');
+    const searchInput = document.getElementById('searchInput');
+    let currentCategory = 'all';
+
+    function renderCards() {
+        const searchTerm = searchInput.value.trim().toLowerCase();
+        let html = '';
+        let visibleCount = 0;
+
+        dishes.forEach(d => {
+            const categoryMatch = currentCategory === 'all' || d.category === currentCategory;
+            const searchMatch = searchTerm === '' ||
+                d.name.toLowerCase().includes(searchTerm) ||
+                d.ingredients.some(i => i.toLowerCase().includes(searchTerm)) ||
+                d.description.toLowerCase().includes(searchTerm);
+            const show = categoryMatch && searchMatch;
+            if (show) visibleCount++;
+
+            const ingredientsHtml = d.ingredients.map(i => `<span class="ingredient-item">${i}</span>`).join('');
+
+            const cardHtml = `
+                <div class="card ${show ? '' : 'hidden'}">
+                    <div class="card-header">
+                        <h2>${d.name}</h2>
+                    </div>
+                    <div class="category-tag">${d.category}</div>
+                    <div class="section">
+                        <div class="section-title">Состав</div>
+                        <div class="section-content ingredient-list">${ingredientsHtml}</div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">Вкусное описание</div>
+                        <div class="section-content">${d.description}</div>
+                    </div>
+                </div>
+            `;
+            html += cardHtml;
+        });
+
+        if (visibleCount === 0) {
+            html = `<div class="empty">Ничего не найдено. Попробуйте изменить запрос.</div>`;
+        }
+
+        grid.innerHTML = html;
+    }
+
+    function applyFilters() { renderCards(); }
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            currentCategory = this.dataset.category;
+            renderCards();
+        });
+    });
+
+    renderCards();
+</script>
+</body>
+</html>
