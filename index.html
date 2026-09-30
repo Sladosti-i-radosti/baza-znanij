@@ -21,26 +21,54 @@
             max-width: 1000px;
             margin: 0 auto;
         }
-        h1 {
+
+        /* ===== ШАПКА С ЛОГОТИПОМ ===== */
+        .header-block {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+        .logo {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+        .header-text h1 {
             font-size: 30px;
             font-weight: 800;
             color: #2B2B2B;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             letter-spacing: -0.5px;
         }
-        .sub {
+        .header-text .sub {
             color: #2B2B2B;
             font-size: 15px;
             border-left: 4px solid #E62369;
             padding-left: 12px;
-            margin-bottom: 20px;
-            line-height: 1.5;
+            line-height: 1.4;
         }
+        @media (max-width: 600px) {
+            .logo {
+                width: 60px;
+                height: 60px;
+            }
+            .header-text h1 {
+                font-size: 22px;
+            }
+            .header-text .sub {
+                font-size: 13px;
+            }
+        }
+
+        /* ===== ПОИСК И ФИЛЬТРЫ ===== */
         .controls {
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
             margin-bottom: 28px;
+            margin-top: 20px;
             align-items: center;
         }
         .search-wrap {
@@ -98,6 +126,7 @@
             transform: scale(0.95);
         }
 
+        /* ===== СЕТКА И КАРТОЧКИ ===== */
         .grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -185,9 +214,17 @@
 </head>
 <body>
 <div class="container">
-    <h1>База знаний кофейни</h1>
-    <div class="sub">Навигатор для сотрудников — все инструкции, рецепты и стандарты в одном месте</div>
 
+    <!-- ===== ШАПКА С ЛОГОТИПОМ ===== -->
+    <div class="header-block">
+        <img src="logo.png" alt="Логотип Сладости и Радости" class="logo">
+        <div class="header-text">
+            <h1>База знаний кофейни</h1>
+            <div class="sub">Навигатор для сотрудников — все инструкции, рецепты и стандарты в одном месте</div>
+        </div>
+    </div>
+
+    <!-- ===== ПОИСК И ФИЛЬТРЫ ===== -->
     <div class="controls">
         <div class="search-wrap">
             <input type="text" id="searchInput" placeholder="Поиск по названию..." oninput="applyFilters()">
@@ -203,6 +240,7 @@
         </div>
     </div>
 
+    <!-- ===== КАРТОЧКИ ===== -->
     <div class="grid" id="cardGrid"></div>
 
     <div class="footer">Обновлено: 30.09.2026</div>
