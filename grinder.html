@@ -64,6 +64,33 @@
             margin-bottom: 12px;
         }
 
+        /* ===== КНОПКА-ССЫЛКА ===== */
+        .btn-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #D2F0F2;
+            color: #2B7A8A;
+            text-decoration: none;
+            padding: 14px 24px;
+            border-radius: 60px;
+            font-size: 15px;
+            font-weight: 700;
+            transition: 0.2s;
+            border: 2px solid #B8E4E8;
+            margin-top: 8px;
+        }
+        .btn-link:hover {
+            background: #FFD1DC;
+            color: #8B234A;
+            border-color: #FAD4DE;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(230, 35, 105, 0.15);
+        }
+        .btn-link:active {
+            transform: scale(0.97);
+        }
+
         /* ===== ВИДЕО ===== */
         .video-wrap {
             position: relative;
@@ -141,6 +168,7 @@
             .header h1 { font-size: 24px; }
             .section { padding: 20px 16px; }
             .section h2 { font-size: 19px; }
+            .btn-link { width: 100%; justify-content: center; }
         }
     </style>
 </head>
@@ -154,22 +182,21 @@
     <!-- ===== ВИДЕО ===== -->
     <div class="section">
         <h2>Видеоинструкция</h2>
-        <p>Посмотрите видео перед началом работы. Если видео не отображается — откройте его по ссылке ниже.</p>
+        <p>Посмотрите видео перед началом работы. Если видео не отображается на телефоне — нажмите кнопку ниже.</p>
 
         <div class="video-wrap">
-            <!-- Замените ссылку в src на своё видео -->
             <iframe
-                src="https://vkvideo.ru/video_ext.php?oid=-236963663&id=456239019&hash=105a7db4dfcdb40a&hd=3" width="1280" height="720" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen>
+                src="https://vkvideo.ru/video_ext.php?oid=-236963663&id=456239019&hash=105a7db4dfcdb40a&hd=3"
                 title="Чистка кофемолки"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
                 allowfullscreen>
             </iframe>
         </div>
 
-        <p style="font-size: 14px; color: #8B234A;">
-            <strong>Ссылка на видео:</strong>
-            <src="https://vkvideo.ru/video_ext.php?oid=-236963663&id=456239019&hash=105a7db4dfcdb40a&hd=3" width="1280" height="720" allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;" frameborder="0" allowfullscreen>Открыть в новой вкладке</a>
-        </p>
+        <!-- Кнопка «Открыть в новой вкладке» на VK -->
+        <a href="https://vkvideo.ru/video-236963663_456239019" target="_blank" class="btn-link">
+            ▶ Открыть видео в новой вкладке (VK)
+        </a>
     </div>
 
     <!-- ===== ШАГИ ===== -->
