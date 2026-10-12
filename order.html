@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Приём заказа в кофейне — База знаний</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background: #FEF8FA;
+            padding: 20px 16px 40px;
+            min-height: 100vh;
+            color: #2B2B2B;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .header {
+            margin-bottom: 28px;
+        }
+        .header h1 {
+            font-size: 30px;
+            font-weight: 800;
+            color: #2B2B2B;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        .section {
+            background: #FFFFFF;
+            border-radius: 28px;
+            padding: 24px 22px;
+            box-shadow: 0 6px 20px rgba(230, 35, 105, 0.05);
+            border: 1px solid #FAD4DE;
+            margin-bottom: 24px;
+        }
+        .section h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #E62369;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #FAD4DE;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .section h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2B7A8A;
+            margin: 20px 0 10px;
+        }
+        .section p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #2B2B2B;
+            margin-bottom: 12px;
+        }
+        .step {
+            background: #FEF8FA;
+            border-radius: 20px;
+            padding: 18px 20px;
+            border: 1px solid #FAD4DE;
+            margin-bottom: 16px;
+        }
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .step-num {
+            width: 38px;
+            height: 38px;
+            background: #D2F0F2;
+            color: #2B7A8A;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .step-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: #2B2B2B;
+        }
+        .step-do {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #2B2B2B;
+            margin-bottom: 12px;
+        }
+        .step-do strong { color: #E62369; }
+        .step-say-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #2B7A8A;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+        .step-say {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .step-say span {
+            background: #D2F0F2;
+            color: #2B7A8A;
+            padding: 8px 14px;
+            border-radius: 14px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .list li {
+            position: relative;
+            padding: 10px 0 10px 28px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #2B2B2B;
+            border-bottom: 1px solid #FAD4DE;
+        }
+        .list li:last-child { border-bottom: none; }
+        .list li::before {
+            content: "•";
+            position: absolute;
+            left: 8px;
+            top: 10px;
+            color: #E62369;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .list li strong { color: #2B7A8A; }
+        .note {
+            background: #FFD1DC;
+            border-left: 4px solid #E62369;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #8B234A;
+            margin: 14px 0;
+        }
+        .note strong { color: #6B1A3A; }
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #B8A0AA;
+            font-size: 13px;
+            border-top: 1px solid #FAD4DE;
+            padding-top: 24px;
+        }
+        @media (max-width: 600px) {
+            .header h1 { font-size: 24px; }
+            .section { padding: 20px 16px; }
+            .section h2 { font-size: 19px; }
+            .section h3 { font-size: 16px; }
+            .step { padding: 14px 16px; }
+            .step-title { font-size: 15px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Приём заказа в кофейне</h1>
+    </div>
+
+    <!-- ===== ГЛАВНЫЕ ПРАВИЛА ===== -->
+    <div class="section">
+        <h2>Главные правила</h2>
+        <ul class="list">
+            <li>Тон — спокойный и дружелюбный, голос уверенный</li>
+            <li>Не давить, а помогать</li>
+            <li>Давать выбор, а не ставить в рамки</li>
+        </ul>
+    </div>
+
+    <!-- ===== ШАГ 1 ===== -->
+    <div class="section">
+        <h2>Шаг 1. Встреча гостя — первые решающие секунды</h2>
+        <p>Первое впечатление формируется за 3–5 секунд. Именно в эти мгновения гость решает, насколько комфортно ему будет в кофейне. Каждый жест, взгляд и слово имеют значение.</p>
+
+        <div class="step">
+            <div class="step-header">
+                <div class="step-num">1</div>
+                <div class="step-title">Поймай взгляд и улыбнись</div>
+            </div>
+            <div class="step-do">
+                Лёгкий зрительный контакт 1–2 секунды. Естественная, спокойная улыбка. Гость понимает, что его заметили и ему рады.
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-header">
+                <div class="step-num">2</div>
+                <div class="step-title">Поздоровайся тепло</div>
+            </div>
+            <div class="step-do">
+                «Здравствуйте» или «Добрый день» — тёплым, спокойным тоном. Пауза после приветствия — дать гостю время отреагировать.
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-header">
+                <div class="step-num">3</div>
+                <div class="step-title">Предложи помощь с выбором (2–3 секунды)</div>
+            </div>
+            <div class="step-do">
+                Если гость долго выбирает — предложи помощь. Это убирает стресс и ускоряет процесс. Повышает шанс на допродажи (гость прислушивается к советам).
+            </div>
+            <div class="step-say-label">Что говорить:</div>
+            <div class="step-say">
+                <span>Могу помочь с выбором?</span>
+                <span>Какой кофе обычно пьёте?</span>
+                <span>Кофе, чай, десерты?</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ШАГ 2 ===== -->
+    <div class="section">
+        <h2>Шаг 2. Приём заказа — искусство внимательного слушания</h2>
+
+        <h3>Выслушай до конца</h3>
+        <p>Поддерживай контакт взглядом. Не перебивай и не спеши.</p>
+        <div class="step-say">
+            <span>Я вас слушаю.</span>
+            <span>Что для вас приготовить?</span>
+            <span>Готовы сделать заказ?</span>
+        </div>
+
+        <h3>Помоги сомневающимся</h3>
+        <p>Предлагай ненавязчиво.</p>
+        <div class="step-say">
+            <span>Могу подсказать — что обычно любите? Какой кофе обычно пьёте?</span>
+            <span>Подсказать вам что-то по меню?</span>
+            <span>Хотите, помогу с выбором?</span>
+        </div>
+
+        <h3>Используй открытые вопросы</h3>
+        <p>Помогают мягко и быстро выявить вкусы гостя.</p>
+        <div class="step-say">
+            <span>Какой кофе вы обычно предпочитаете — более крепкий или мягкий?</span>
+            <span>Хотите попробовать что-то классическое или нашу новинку?</span>
+            <span>Какой напиток вы хотите — что-то освежающее или согревающее?</span>
+            <span>Вам нравится что-то фруктовое или больше сливочные варианты?</span>
+            <span>Какие десерты вы любите — более шоколадные, сливочные или ягодные?</span>
+            <span>Вам хочется что-то лёгкое или более сытный десерт?</span>
+            <span>Какое блюдо вы предпочитаете: горячее, салат или завтрак?</span>
+        </div>
+
+        <div class="note">
+            <strong>Почему это важно:</strong> внимательное слушание минимизирует ошибки, гость чувствует заботу, и процесс становится приятным для обеих сторон.
+        </div>
+
+        <div class="note">
+            <strong>Если блюдо в стопе или у гостя аллергия</strong> — фразы-спасатели и варианты замены смотрите в отдельном документе <a href="sales.html" style="color: #6B1A3A; font-weight: 700;">«Инструменты продаж»</a>.
+        </div>
+    </div>
+
+    <!-- ===== ШАГ 3 ===== -->
+    <div class="section">
+        <h2>Шаг 3. Расширение заказа — увеличиваем ценность</h2>
+
+        <h3>1. Минимальный чек</h3>
+        <p>Это минимальный набор позиций, который мы предлагаем гостю.</p>
+        <ul class="list">
+            <li>Кофейня с десертами: <strong>1 напиток + 1 десерт</strong></li>
+            <li>Кофейня с кухней: <strong>1 напиток + 1 блюдо + 1 десерт</strong></li>
+        </ul>
+
+        <h3>2. Средний чек</h3>
+        <p>Это средняя сумма, которую тратит гость за визит.</p>
+        <ul class="list">
+            <li><strong>Вологда:</strong> 600 ₽ (кофейня с кухней), 500 ₽ (кофейня с десертами)</li>
+            <li><strong>Ярославль:</strong> 800 ₽ (кофейня с кухней), 500 ₽ (кофейня с десертами)</li>
+        </ul>
+
+        <div class="note">
+            <strong>Помни:</strong> Всегда формируй минимальный чек для каждого гостя. Следи, чтобы допродажи были органичными, а гость чувствовал заботу, а не давление.
+        </div>
+
+        <div class="note">
+            <strong>Инструменты допродаж</strong> (вкусные описания, работа с витриной, подбор допов, альтернативы по стопам и аллергиям) — в документе <a href="sales.html" style="color: #6B1A3A; font-weight: 700;">«Инструменты продаж»</a>.
+        </div>
+    </div>
+
+    <!-- ===== ШАГ 4 ===== -->
+    <div class="section">
+        <h2>Шаг 4. Точность, бонусы и расчёт</h2>
+
+        <h3>Повтори заказ</h3>
+        <p>Это исключает ошибки и показывает внимание.</p>
+        <div class="step-say">
+            <span>Повторю: капучино большой и чизкейк, верно?</span>
+            <span>Итак: латте на овсяном молоке, без сиропов, и орешки со сгущёнкой — всё верно?</span>
+            <span>Ваш заказ: фильтр-кофе и круассан с миндалём, правильно?</span>
+        </div>
+
+        <h3>Уточни детали</h3>
+        <p>Формат (здесь / с собой), последовательность подачи, время ожидания.</p>
+        <div class="step-say">
+            <span>Кофе сразу или вместе с блюдом?</span>
+            <span>Подать всё вместе или по готовности?</span>
+            <span>Ожидание — около 5 минут. Можете пока присесть.</span>
+            <span>Сегодня много заказов, время ожидания — около 15 минут.</span>
+        </div>
+
+        <h3>Расскажи про бонусы</h3>
+        <p><strong>1.</strong> Спроси, зарегистрирован ли гость в бонусной программе.</p>
+        <div class="step-say">
+            <span>Вы уже пользуетесь нашей бонусной программой?</span>
+        </div>
+        <p><strong>2.</strong> Сообщи количество бонусов и варианты использования (если гость зарегистрирован).</p>
+        <div class="step-say">
+            <span>У вас 150 бонусов — можно оплатить ими до 30% заказа. Хотите списать или продолжите копить?</span>
+        </div>
+        <p><strong>3.</strong> Если гость не зарегистрирован — предложи регистрацию.</p>
+        <div class="step-say">
+            <span>Если хотите, могу зарегистрировать вас прямо сейчас — займёт минуту.</span>
+            <span>Могу оформить бонусную карту, и уже с этой покупки вам начислятся баллы.</span>
+            <span>Хотите подключиться? Для регистрации нужен только номер телефона.</span>
+        </div>
+        <p><strong>4.</strong> Коротко расскажи условия программы.</p>
+        <div class="step-say">
+            <span>При каждой покупке 5% возвращается бонусами. Бонусами можно оплатить до 30% стоимости заказа. Бонусы не сгорают. Для регистрации нужен только номер телефона.</span>
+        </div>
+
+        <h3>Проведи оплату</h3>
+        <p>Уточни способ расчёта. Выдай чек и номерок стола с объяснением.</p>
+        <div class="step-say">
+            <span>Как вам будет удобнее оплатить?</span>
+            <span>Вы оплатите картой, наличными или QR-кодом?</span>
+            <span>Пожалуйста, ваш чек.</span>
+            <span>Ваш номерок. Присаживайтесь — официант принесёт заказ.</span>
+        </div>
+    </div>
+
+    <!-- ===== ШАГ 5 ===== -->
+    <div class="section">
+        <h2>Шаг 5. Подача и обратная связь</h2>
+
+        <h3>При подаче заказа</h3>
+        <p>Называй блюдо / напиток.</p>
+        <div class="step-say">
+            <span>Ваш капучино на миндальном молоке и наполеон. Приятного аппетита!</span>
+            <span>Американо — пожалуйста! Наслаждайтесь!</span>
+            <span>Капучино на миндальном — для вас. А раф — для вас, пожалуйста. Приятного аппетита!</span>
+            <span>Ваши напитки: латте, капучино и раф. Приятного вечера!</span>
+            <span>Ваш латте и цезарь с креветками. Приятного отдыха!</span>
+        </div>
+
+        <div class="note">
+            <strong>Ошибка:</strong> молча ставить блюда на стол или говорить неопределённо «Ваш заказ».
+        </div>
+
+        <h3>Обратная связь</h3>
+        <p>Спрашивай перед уборкой стола и запрашивай обратную связь (1 раз за визит).</p>
+        <div class="step-say">
+            <span>Могу я забрать посуду?</span>
+            <span>Как вам кофе? Всё ли понравилось?</span>
+            <span>Как вам наш Наполеон?</span>
+            <span>Как вам сочетание шоколада и вишни в черри мокко?</span>
+        </div>
+
+        <h3>Прощание с гостем</h3>
+        <p>Попрощайся искренне и тепло. Произноси фразу в момент ухода, а не «в спину».</p>
+        <div class="step-say">
+            <span>Хорошего дня, приходите снова!</span>
+            <span>Будем рады видеть вас снова!</span>
+        </div>
+
+        <div class="note">
+            <strong>Помни:</strong> это последний штрих визита — он формирует финальное впечатление и повышает вероятность возвращения.
+        </div>
+    </div>
+
+    <div class="footer">Обновлено: 12.10.2026</div>
+</div>
+</body>
+</html>
